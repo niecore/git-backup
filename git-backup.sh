@@ -7,12 +7,12 @@ config_folder=$3
 backup () {
     cd $config_folder
 
-    if [[ $(git diff --stat) != '' ]]; then
+    if [ -z "$(git status --porcelain)" ]; then 
+        echo 'nothing to backup'
+    else
         git add .
         git commit -m "Config files on `date +'%d-%m-%Y %H:%M:%S'`"
-        git push -u origin master
-    else
-        echo 'nothing to backup'
+        git push -u origin master   
     fi
 }
 
